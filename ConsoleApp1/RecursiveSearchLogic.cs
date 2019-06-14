@@ -21,54 +21,7 @@ namespace ConsoleApp1
     {
         public static volatile bool searchEnable = true;
         public delegate void SearchResultDelegate(string path);
-
-        public static void RecursiveSearch(SearchResultDelegate searchResult, List<string> exceptionsList, bool includeDirectories = true, string sDir = "*")
-        {
-            string[] dirs;
-            if (!searchEnable) return;
-            try
-            {
-                if (exceptionsList.Contains(sDir)) return;
-                if (sDir == "*")
-                {
-                    var drives = System.IO.DriveInfo.GetDrives();
-                    var tmpList = new List<string>();
-
-                    foreach (DriveInfo dro in drives)
-                    {
-                        tmpList.Add(dro.Name);
-                    }
-                    dirs = tmpList.ToArray();
-                }
-                else
-                {
-                    dirs = Directory.GetDirectories(sDir);
-                }
-
-                foreach (string d in dirs)
-                {
-                    if(includeDirectories) searchResult(d);
-                    try
-                    {
-                        foreach (string f in Directory.GetFiles(d))
-                        {
-                            searchResult(f);
-                        }
-                    }
-                    catch (System.Exception excpt)
-                    {
-                        Console.WriteLine(excpt.Message);
-                    }
-                    RecursiveSearch(searchResult, exceptionsList, includeDirectories , d);
-                }
-            }
-            catch (System.Exception excpt)
-            {
-                Console.WriteLine(excpt.Message);
-            }
-            Thread.Sleep(114);
-        }
-
+        
         public static async Task RecursiveSearchAsync(SearchResultDelegate searchResult, List<string> exceptionsList, bool includeDirectories = true, string sDir = "*")
         {
             string[] dirs;
@@ -90,22 +43,21 @@ namespace ConsoleApp1
                 else
                 {
                     dirs = Directory.GetDirectories(sDir);
-                }
-
-                foreach (string d in dirs)
-                {
-                    if (includeDirectories) searchResult(d);
-                    try
+                    foreach (string f in Directory.GetFiles(sDir))
                     {
-                        foreach (string f in Directory.GetFiles(d))
+                        try
                         {
                             searchResult(f);
                         }
+                        catch (System.Exception excpt)
+                        {
+                            Console.WriteLine(excpt.Message);
+                        }
                     }
-                    catch (System.Exception excpt)
-                    {
-                        Console.WriteLine(excpt.Message);
-                    }
+                }
+                foreach (string d in dirs)
+                {
+                    if (includeDirectories) searchResult(d);
                     await RecursiveSearchAsync(searchResult, exceptionsList, includeDirectories, d);
                 }
             }
@@ -113,7 +65,6 @@ namespace ConsoleApp1
             {
                 Console.WriteLine(excpt.Message);
             }
-            await Task.Delay(4);
         }
     }
 }
