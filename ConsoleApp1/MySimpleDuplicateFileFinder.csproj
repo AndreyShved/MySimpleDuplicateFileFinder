@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DiskStoredStringList.cs" />
+    <Compile Include="FileDuplicateFinder.cs" />
     <Compile Include="FileSearchStringList.cs" />
     <Compile Include="HashedFilesList.cs" />
     <Compile Include="Program.cs" />
