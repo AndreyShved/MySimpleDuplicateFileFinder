@@ -22,28 +22,29 @@ namespace ConsoleApp1
         public static volatile bool searchEnable = true;
         public delegate void SearchResultDelegate(string path);
         
-        public static async Task RecursiveSearchAsync(SearchResultDelegate searchResult, List<string> exceptionsList, bool includeDirectories = true, string sDir = "*")
+        public static async Task RecursiveSearchAsync(SearchResultDelegate searchResult, List<string> exceptionsList, bool includeDirectories = true, string targetDir = "*")
         {
-            string[] dirs;
             if (!searchEnable) return;
+
             try
             {
-                if (exceptionsList.Contains(sDir)) return;
-                if (sDir == "*")
+                string[] dirs;
+                if (exceptionsList.Contains(targetDir)) return;
+                if (targetDir == "*")
                 {
                     var drives = System.IO.DriveInfo.GetDrives();
-                    var tmpList = new List<string>();
+                    var driveNames = new List<string>();
 
-                    foreach (DriveInfo dro in drives)
+                    foreach (DriveInfo drive in drives)
                     {
-                        tmpList.Add(dro.Name);
+                        driveNames.Add(drive.Name);
                     }
-                    dirs = tmpList.ToArray();
+                    dirs = driveNames.ToArray();
                 }
                 else
                 {
-                    dirs = Directory.GetDirectories(sDir);
-                    foreach (string f in Directory.GetFiles(sDir))
+                    dirs = Directory.GetDirectories(targetDir);
+                    foreach (string f in Directory.GetFiles(targetDir))
                     {
                         try
                         {
@@ -55,10 +56,10 @@ namespace ConsoleApp1
                         }
                     }
                 }
-                foreach (string d in dirs)
+                foreach (string dir in dirs)
                 {
-                    if (includeDirectories) searchResult(d);
-                    await RecursiveSearchAsync(searchResult, exceptionsList, includeDirectories, d);
+                    if (includeDirectories) searchResult(dir);
+                    await RecursiveSearchAsync(searchResult, exceptionsList, includeDirectories, dir);
                 }
             }
             catch (System.Exception excpt)
