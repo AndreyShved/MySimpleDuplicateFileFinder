@@ -14,21 +14,21 @@ using System.IO;
 namespace ConsoleApp1
 {
     /// <summary>
-    /// Description of FileSearchStringList.
+    /// Description of SimpleDiskStoredStringList.
     /// </summary>
-    public class FileSearchStringList : DiskStoredStringList
+    public class SimpleDiskStoredStringList : DiskStoredStringList
     {
         protected override string GenerateFileName()
         {
-            return "filesearchStringListf" + Guid.NewGuid() + ".txt";
+            return "SimpleDiskStoredStringListf" + Guid.NewGuid() + ".txt";
         }
-        public FileSearchStringList() : base()
+        public SimpleDiskStoredStringList() : base()
         {
         }
         
         public void Add(string item)
         {
-            AddString(item);
+            Ad(item);
         }
 
     }

@@ -46,9 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DiskStoredJsonList.cs" />
     <Compile Include="DiskStoredStringList.cs" />
     <Compile Include="FileDuplicateFinder.cs" />
-    <Compile Include="FileSearchStringList.cs" />
+    <Compile Include="SimpleDiskStoredStringList.cs" />
+    <Compile Include="HashedFileInfo.cs" />
     <Compile Include="HashedFilesList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -5,9 +5,9 @@ using System.IO;
 
 namespace ConsoleApp1
 {
-    public class DiskStoredStringList : IDisposable, IEnumerable<string>
+    public abstract class DiskStoredStringList : IDisposable, IEnumerable<string>
     {
-        private string _fileName;
+        protected string fileName;
         private const int BUFFER_SIZE = 1000000;
 
         public MemoryStream ms = new MemoryStream();
@@ -19,9 +19,9 @@ namespace ConsoleApp1
 
         public DiskStoredStringList()
         {
-            _fileName = GenerateFileName();
-            _fileName = (new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().CodeBase.Replace("file:///", ""))).Directory.FullName + "\\" + _fileName;
-            using (var stream = new FileStream(_fileName, FileMode.Create))
+            fileName = GenerateFileName();
+            fileName = (new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().CodeBase.Replace("file:///", ""))).Directory.FullName + "\\" + fileName;
+            using (var stream = new FileStream(fileName, FileMode.Create))
             {
                 using (var writer = new StreamWriter(stream))
                 {
@@ -34,7 +34,7 @@ namespace ConsoleApp1
         {
             try
             {
-                File.Delete(_fileName);
+                File.Delete(fileName);
             }
             catch (System.IO.IOException e)
             {
@@ -49,7 +49,7 @@ namespace ConsoleApp1
 
         private void SaveToDisk()
         {
-            using (var stream = new FileStream(_fileName, FileMode.Append))
+            using (var stream = new FileStream(fileName, FileMode.Append))
             {
                 ms.WriteTo(stream);
                 stream.Flush();
@@ -58,7 +58,7 @@ namespace ConsoleApp1
             ms = new MemoryStream();
         }
         
-        public void AddString(string item)
+        protected void Ad(string item)
         {
             byte[] buffer = System.Text.Encoding.UTF8.GetBytes(item + System.Environment.NewLine);
             ms.Write(buffer, 0, buffer.Length);
@@ -119,13 +119,13 @@ namespace ConsoleApp1
         public virtual IEnumerator<string> GetEnumerator()
         {
             FlushList();
-            return new DiskStoredStringListEnumerator(this._fileName);
+            return new DiskStoredStringListEnumerator(this.fileName);
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             FlushList();
-            return new DiskStoredStringListEnumerator(this._fileName);
+            return new DiskStoredStringListEnumerator(this.fileName);
         }
 
     }

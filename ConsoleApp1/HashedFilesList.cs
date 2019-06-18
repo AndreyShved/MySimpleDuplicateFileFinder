@@ -6,18 +6,18 @@ namespace ConsoleApp1
 {
     public class HashedFilesList : IDisposable, IEnumerable<HashedFilesList.HashedFilePathPair>
     {
-        private DiskStoredStringList _list = new DiskStoredStringList();
+        private SimpleDiskStoredStringList _list = new SimpleDiskStoredStringList();
         
         public void AddHashedFilePath(string item, string hash)
         {
-            _list.AddString(item);
-            _list.AddString(hash);
+            _list.Add(item);
+            _list.Add(hash);
         }
 
         public void AddHashedFilePathPair(HashedFilePathPair hashedFilePathPair)
         {
-            _list.AddString(hashedFilePathPair.FullPath);
-            _list.AddString(hashedFilePathPair.Hash);
+            _list.Add(hashedFilePathPair.FullPath);
+            _list.Add(hashedFilePathPair.Hash);
         }
 
         public class HashedFilePathPair

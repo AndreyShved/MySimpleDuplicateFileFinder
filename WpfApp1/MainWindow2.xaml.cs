@@ -21,7 +21,7 @@ namespace WpfApp1
         {
             var scanResult = await Task.Factory.StartNew(() =>
             {
-                var scanResultVar = FileDuplicateFinder.ScanWithHashes(path);
+                var scanResultVar = FileDuplicateFinder.FastScanWithHashes(path);
                 return scanResultVar;
             });
             DisplayFileDuplicates(scanResult);

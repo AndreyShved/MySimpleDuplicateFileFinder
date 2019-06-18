@@ -25,19 +25,19 @@ namespace ConsoleApp1
 
         static List<List<string>> FindDuplicateFilesInHashedFilesList(HashedFilesList list)
         {
-            using (var hashesList = new DiskStoredStringList())
+            using (var hashesList = new SimpleDiskStoredStringList())
             {
-                using (var duplicateHashesList = new DiskStoredStringList())
+                using (var duplicateHashesList = new SimpleDiskStoredStringList())
                 {
                     foreach (var pair in list)
                     {
                         if (hashesList.Contains(pair.Hash))
                         {
-                            if (!duplicateHashesList.Contains(pair.Hash)) duplicateHashesList.AddString(pair.Hash);
+                            if (!duplicateHashesList.Contains(pair.Hash)) duplicateHashesList.Add(pair.Hash);
                         }
                         else
                         {
-                            hashesList.AddString(pair.Hash);
+                            hashesList.Add(pair.Hash);
                         }
                     }
 
@@ -55,19 +55,19 @@ namespace ConsoleApp1
 
         static Dictionary<string,List<string>> FindDuplicateFilesInHashedFilesDictionary(HashedFilesList list)
         {
-            using (var hashesList = new DiskStoredStringList())
+            using (var hashesList = new SimpleDiskStoredStringList())
             {
-                using (var duplicateHashesList = new DiskStoredStringList())
+                using (var duplicateHashesList = new SimpleDiskStoredStringList())
                 {
                     foreach (var pair in list)
                     {
                         if (hashesList.Contains(pair.Hash))
                         {
-                            if (!duplicateHashesList.Contains(pair.Hash)) duplicateHashesList.AddString(pair.Hash);
+                            if (!duplicateHashesList.Contains(pair.Hash)) duplicateHashesList.Add(pair.Hash);
                         }
                         else
                         {
-                            hashesList.AddString(pair.Hash);
+                            hashesList.Add(pair.Hash);
                         }
                     }
 
@@ -102,6 +102,22 @@ namespace ConsoleApp1
                 task.Wait();
                 list.FlushList();
                 return FindDuplicateFilesInHashedFilesList(list);
+            }
+        }
+
+        public static Dictionary<string, List<string>> FastScanWithHashes(string directoryPath)
+        {
+            using (var list = new DiskStoredJsonList<HashedFileInfo>())
+            {
+                var task = Task.Run(async () => { await RecursiveSearchLogic.RecursiveSearchAsync((path) => list.Add(new HashedFileInfo { Path = path, Hash = CalculateMD5(path), Size = (new System.IO.FileInfo(path)).Length }) , new List<string>(), false, directoryPath); });
+                task.Wait();
+                var hashedFilesGroups = list.Cast<HashedFileInfo>().GroupBy(hashFileInfo => hashFileInfo.Size).Where(group => group.Count() > 1).SelectMany(group => group.ToList()).GroupBy(hashedElement => hashedElement.Hash).Where(group => group.Count() > 1);
+                Dictionary<string, List<string>> result = new Dictionary<string, List<string>>();
+                foreach (var group in hashedFilesGroups)
+                {
+                    result[group.Key] = group.Select(element => element.Path).ToList();
+                }
+                return result;
             }
         }
     }
