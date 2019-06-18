@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using ConsoleApp1;
@@ -14,7 +15,15 @@ namespace WpfApp1
         public MainWindow2()
         {
             InitializeComponent();
-            var scanResult = FileDuplicateFinder.ScanWithHashes(@"C:\Users");
+        }
+
+        public async Task ScanForDuplicates(string path)
+        {
+            var scanResult = await Task.Factory.StartNew(() =>
+            {
+                var scanResultVar = FileDuplicateFinder.ScanWithHashes(path);
+                return scanResultVar;
+            });
             DisplayFileDuplicates(scanResult);
         }
 
