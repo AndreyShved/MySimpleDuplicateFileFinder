@@ -19,12 +19,11 @@ namespace WpfApp1
 
         public async Task ScanForDuplicates(string path)
         {
-            var scanResult = await Task.Factory.StartNew(() =>
+            var scanResult = await Task.Factory.StartNew(async () =>
             {
-                var scanResultVar = FileDuplicateFinder.FastScanWithHashes(path);
-                return scanResultVar;
+                return await FileDuplicateFinder.FastScanWithHashesAsync(path);
             });
-            DisplayFileDuplicates(scanResult);
+            DisplayFileDuplicates(await scanResult);
         }
 
         public void DisplayFileDuplicates(IDictionary<string, List<string>> fileDuplicates)

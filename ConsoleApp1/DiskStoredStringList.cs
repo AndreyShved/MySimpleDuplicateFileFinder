@@ -58,7 +58,7 @@ namespace ConsoleApp1
             ms = new MemoryStream();
         }
         
-        protected void Ad(string item)
+        protected void AddString(string item)
         {
             byte[] buffer = System.Text.Encoding.UTF8.GetBytes(item + System.Environment.NewLine);
             ms.Write(buffer, 0, buffer.Length);

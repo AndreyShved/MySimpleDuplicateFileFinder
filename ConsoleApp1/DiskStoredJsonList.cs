@@ -18,7 +18,7 @@ namespace ConsoleApp1
 
         public void Add(T item)
         {
-            Ad(JsonConvert.SerializeObject(item));
+            AddString(JsonConvert.SerializeObject(item));
         }
         public IEnumerator<T> GetEnumerator()
         {

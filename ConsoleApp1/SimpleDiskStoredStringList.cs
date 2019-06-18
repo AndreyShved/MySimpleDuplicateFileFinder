@@ -28,7 +28,7 @@ namespace ConsoleApp1
         
         public void Add(string item)
         {
-            Ad(item);
+            base.AddString(item);
         }
 
     }
