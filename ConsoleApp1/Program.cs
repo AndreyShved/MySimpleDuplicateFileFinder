@@ -7,9 +7,11 @@ namespace ConsoleApp1
 {
     class Program
     {
+
         static void Main(string[] args)
         {
-            var json = JsonConvert.SerializeObject(FileDuplicateFinder.Scan(@"C:\Users"));
+            var scanResult = FileDuplicateFinder.Scan(@"C:\Users");
+            var json = JsonConvert.SerializeObject(scanResult);
             var resultFilePath = @"result.json";
             File.WriteAllText(resultFilePath , json);
             Console.WriteLine("Result saved in " + resultFilePath);

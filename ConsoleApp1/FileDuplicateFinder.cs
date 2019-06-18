@@ -53,6 +53,47 @@ namespace ConsoleApp1
             }
         }
 
+        static Dictionary<string,List<string>> FindDuplicateFilesInHashedFilesDictionary(HashedFilesList list)
+        {
+            using (var hashesList = new DiskStoredStringList())
+            {
+                using (var duplicateHashesList = new DiskStoredStringList())
+                {
+                    foreach (var pair in list)
+                    {
+                        if (hashesList.Contains(pair.Hash))
+                        {
+                            if (!duplicateHashesList.Contains(pair.Hash)) duplicateHashesList.AddString(pair.Hash);
+                        }
+                        else
+                        {
+                            hashesList.AddString(pair.Hash);
+                        }
+                    }
+
+                    Dictionary<string, List<string>> duplicateFilesDictionary = new Dictionary<string,List<string>>();
+                    foreach (var duplicate in duplicateHashesList)
+                    {
+                        var duplicatePaths = new List<string>();
+                        duplicatePaths.AddRange(list.Where((pair) => pair.Hash == duplicate).Select(pair => pair.FullPath));
+                        duplicateFilesDictionary.Add(duplicate, duplicatePaths);
+                    }
+                    return duplicateFilesDictionary;
+                }
+            }
+        }
+
+        public static Dictionary<string, List<string>> ScanWithHashes(string directoryPath)
+        {
+            using (var list = new HashedFilesList())
+            {
+                var task = Task.Run(async () => { await RecursiveSearchLogic.RecursiveSearchAsync((path) => list.AddHashedFilePath(path, CalculateMD5(path)), new List<string>(), false, directoryPath); });
+                task.Wait();
+                list.FlushList();
+                return FindDuplicateFilesInHashedFilesDictionary(list);
+            }
+        }
+
         public static List<List<string>> Scan(string directoryPath)
         {
             using (var list = new HashedFilesList())
