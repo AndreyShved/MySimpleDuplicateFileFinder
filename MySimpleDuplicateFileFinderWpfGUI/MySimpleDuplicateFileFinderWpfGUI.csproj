@@ -101,7 +101,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ConsoleApp1\MySimpleDuplicateFileFinder.csproj">
+    <ProjectReference Include="..\MySimpleDuplicateFileFinder\MySimpleDuplicateFileFinder.csproj">
       <Project>{7ffd764d-0123-4d60-b2c8-420d725337d6}</Project>
       <Name>MySimpleDuplicateFileFinder</Name>
     </ProjectReference>

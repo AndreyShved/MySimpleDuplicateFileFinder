@@ -1,18 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Security.Cryptography;
+
 
 namespace MySimpleDuplicateFileFinder
 {
     public class HashesCalculator 
     {
         private List<Task<Tuple<string,string>>> _tasks = new List<Task<Tuple<string, string>>>();
-
-        public HashesCalculator()
-        { }
-
+        
         public void AddCalculateTask(string filename)
         {
             _tasks.Add(Task.Factory.StartNew((path) =>

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.645
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySimpleDuplicateFileFinder", "ConsoleApp1\MySimpleDuplicateFileFinder.csproj", "{7FFD764D-0123-4D60-B2C8-420D725337D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySimpleDuplicateFileFinder", "MySimpleDuplicateFileFinder\MySimpleDuplicateFileFinder.csproj", "{7FFD764D-0123-4D60-B2C8-420D725337D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySimpleDuplicateFileFinderWpfGUI", "WpfApp1\MySimpleDuplicateFileFinderWpfGUI.csproj", "{9DFB00B2-86B7-4743-8A47-9F3988A00F16}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySimpleDuplicateFileFinderWpfGUI", "MySimpleDuplicateFileFinderWpfGUI\MySimpleDuplicateFileFinderWpfGUI.csproj", "{9DFB00B2-86B7-4743-8A47-9F3988A00F16}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
