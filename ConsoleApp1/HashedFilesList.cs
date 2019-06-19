@@ -28,6 +28,7 @@ namespace MySimpleDuplicateFileFinder
 
         public IEnumerator<HashedFilePathPair> GetEnumerator()
         {
+            FlushList();
             return new HashedFilePathPairEnumerator(_list);
         }
 

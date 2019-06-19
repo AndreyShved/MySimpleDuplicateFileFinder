@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Threading.Tasks;
+using System.Windows;
+using MySimpleDuplicateFileFinder;
 
 namespace MySimpleDuplicateFileFinderWpfGUI
 {
@@ -14,11 +16,18 @@ namespace MySimpleDuplicateFileFinderWpfGUI
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.ScanButton.IsEnabled = false;
+            ScanButton.IsEnabled = false;
             var scanResultWindow = new ResultTableWindow();
-            await scanResultWindow.ScanForDuplicates(this.txtEditor.Text);
+            var path = txtEditor.Text;
+            var scanResult = await Task.Factory.StartNew(async (dirPath) =>
+            {
+                var pathToScan = dirPath as string;
+                return await FileDuplicateFinder.FastScanWithHashesAsync(pathToScan);
+            }, path);
+            var awaitedScanResult = await scanResult;
+            scanResultWindow.DisplayFileDuplicates(awaitedScanResult);
             scanResultWindow.Show();
-            this.Close();
+            Close();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)

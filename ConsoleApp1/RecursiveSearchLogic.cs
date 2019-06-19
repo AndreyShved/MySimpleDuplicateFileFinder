@@ -1,15 +1,8 @@
-﻿/*
- * Created by SharpDevelop.
- * User: shved_as
- * Date: 09.02.2018
- * Time: 15:42
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace MySimpleDuplicateFileFinder
 {
@@ -20,6 +13,7 @@ namespace MySimpleDuplicateFileFinder
     {
         public static volatile bool searchEnable = true;
         public delegate void SearchResultDelegate(string path);
+        public delegate Task SearchResultDelegateAsync(string path);
         
         public static async Task RecursiveSearchAsync(SearchResultDelegate searchResult, List<string> exceptionsList, bool includeDirectories = true, string targetDir = "*")
         {
@@ -43,6 +37,7 @@ namespace MySimpleDuplicateFileFinder
                 else
                 {
                     dirs = Directory.GetDirectories(targetDir);
+
                     foreach (string f in Directory.GetFiles(targetDir))
                     {
                         try
