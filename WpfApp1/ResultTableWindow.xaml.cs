@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Data;
-using ConsoleApp1;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
-namespace WpfApp1
+using MySimpleDuplicateFileFinder;
+
+namespace MySimpleDuplicateFileFinderWpfGUI
 {
-    public partial class MainWindow2 : Window
+    public partial class ResultTableWindow : Window
     {
 
-        public MainWindow2()
+        public ResultTableWindow()
         {
             InitializeComponent();
         }
@@ -39,7 +38,7 @@ namespace WpfApp1
             myDataGrid.ItemsSource = collectionView;
 
         }
-        
+
     }
 
     public class FileDuplicatePathAndHash

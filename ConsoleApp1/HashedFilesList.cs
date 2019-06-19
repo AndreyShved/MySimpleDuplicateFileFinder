@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace ConsoleApp1
+namespace MySimpleDuplicateFileFinder
 {
     public class HashedFilesList : IDisposable, IEnumerable<HashedFilesList.HashedFilePathPair>
     {

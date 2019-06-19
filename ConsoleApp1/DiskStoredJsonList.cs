@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace ConsoleApp1
+namespace MySimpleDuplicateFileFinder
 {
     public class DiskStoredJsonList<T> : DiskStoredStringList, IEnumerable<T>
     {

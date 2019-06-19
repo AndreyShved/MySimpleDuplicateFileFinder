@@ -3,7 +3,7 @@ using System.IO;
 
 using Newtonsoft.Json;
 
-namespace ConsoleApp1
+namespace MySimpleDuplicateFileFinder
 {
     class Program
     {

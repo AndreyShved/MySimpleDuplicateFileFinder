@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
-namespace ConsoleApp1
+namespace MySimpleDuplicateFileFinder
 {
     public abstract class DiskStoredStringList : IDisposable, IEnumerable<string>
     {
