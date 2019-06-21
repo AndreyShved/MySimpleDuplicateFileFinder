@@ -90,7 +90,7 @@ namespace MySimpleDuplicateFileFinder
         {
             var list = new List<HashedFileInfo>();
             var calculator = new HashesCalculator();
-            RecursiveSearchLogic.RecursiveSearch((path) => calculator.AddCalculateTask(path), new List<string>(), false, directoryPath);
+            IterationSearchLogic.Search((path) => calculator.AddCalculateTask(path), new List<string>(), false, directoryPath);
             var calculationResults = calculator.GetCalculationResults();
             foreach(var path in calculationResults.Keys)
             {
