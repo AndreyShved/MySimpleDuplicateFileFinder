@@ -27,6 +27,18 @@ namespace MySimpleDuplicateFileFinder
             }, filename));
         }
 
+        public async Task<Dictionary<string, string>> GetCalculationResultsAsync()
+        {
+            var result = new Dictionary<string, string>();
+            var taskResults = await Task.WhenAll(_tasks.ToArray());
+            foreach (var taskResult in taskResults)
+            {
+                if (taskResult != null) result[taskResult.Item2] = taskResult.Item1;
+            }
+            _tasks = new List<Task<Tuple<string, string>>>();
+            return result;
+        }
+
         public Dictionary<string , string> GetCalculationResults()
         {
             var result = new Dictionary<string, string>();
