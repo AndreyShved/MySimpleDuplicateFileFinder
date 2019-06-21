@@ -22,7 +22,7 @@ namespace MySimpleDuplicateFileFinderWpfGUI
             var scanResult = await Task.Factory.StartNew(async (dirPath) =>
             {
                 var pathToScan = dirPath as string;
-                return await FileDuplicateFinder.FastScanWithHashesAsync(pathToScan);
+                return FileDuplicateFinder.FastScanWithHashes(pathToScan);
             }, path);
             var awaitedScanResult = await scanResult;
             scanResultWindow.DisplayFileDuplicates(awaitedScanResult);

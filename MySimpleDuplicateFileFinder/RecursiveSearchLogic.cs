@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace MySimpleDuplicateFileFinder
 {
@@ -15,7 +14,7 @@ namespace MySimpleDuplicateFileFinder
         public delegate void SearchResultDelegate(string path);
         public delegate Task SearchResultDelegateAsync(string path);
         
-        public static async Task RecursiveSearchAsync(SearchResultDelegate searchResult, List<string> exceptionsList, bool includeDirectories = true, string targetDir = "*")
+        public static void RecursiveSearch(SearchResultDelegate searchResult, List<string> exceptionsList, bool includeDirectories = true, string targetDir = "*")
         {
             if (!searchEnable) return;
 
@@ -36,6 +35,7 @@ namespace MySimpleDuplicateFileFinder
                 }
                 else
                 {
+
                     dirs = Directory.GetDirectories(targetDir);
 
                     foreach (string f in Directory.GetFiles(targetDir))
@@ -53,7 +53,7 @@ namespace MySimpleDuplicateFileFinder
                 foreach (string dir in dirs)
                 {
                     if (includeDirectories) searchResult(dir);
-                    await RecursiveSearchAsync(searchResult, exceptionsList, includeDirectories, dir);
+                    RecursiveSearch(searchResult, exceptionsList, includeDirectories, dir);
                 }
             }
             catch (System.Exception excpt)

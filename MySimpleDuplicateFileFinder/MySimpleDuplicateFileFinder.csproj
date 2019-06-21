@@ -51,6 +51,7 @@
     <Compile Include="DiskStoredStringList.cs" />
     <Compile Include="FileDuplicateFinder.cs" />
     <Compile Include="HashesCalculator.cs" />
+    <Compile Include="IterationSearchLogic.cs" />
     <Compile Include="SimpleDiskStoredStringList.cs" />
     <Compile Include="HashedFileInfo.cs" />
     <Compile Include="HashedFilesList.cs" />

@@ -72,8 +72,7 @@ namespace MySimpleDuplicateFileFinder
         {
             using (var list = new HashedFilesList())
             {
-                var task = Task.Run(async () => { await RecursiveSearchLogic.RecursiveSearchAsync((path) => list.AddHashedFilePath(path, HashesCalculator.CalculateMD5(path)), new List<string>(), false, directoryPath); });
-                task.Wait();
+                RecursiveSearchLogic.RecursiveSearch((path) => list.AddHashedFilePath(path, HashesCalculator.CalculateMD5(path)), new List<string>(), false, directoryPath);
                 return FindDuplicateFilesInHashedFilesDictionary(list);
             }
         }
@@ -82,30 +81,16 @@ namespace MySimpleDuplicateFileFinder
         {
             using (var list = new HashedFilesList())
             {
-                var task = Task.Run(async () => { await RecursiveSearchLogic.RecursiveSearchAsync((path) => list.AddHashedFilePath(path, HashesCalculator.CalculateMD5(path)), new List<string>(), false, directoryPath); });
-                task.Wait();
+                RecursiveSearchLogic.RecursiveSearch((path) => list.AddHashedFilePath(path, HashesCalculator.CalculateMD5(path)), new List<string>(), false, directoryPath);
                 return FindDuplicateFilesInHashedFilesList(list);
             }
         }
         
-        public async static Task<Dictionary<string, List<string>>> ScanWithHashesAsync(string directoryPath)
-        {
-            var list = new List<HashedFileInfo>();
-            await RecursiveSearchLogic.RecursiveSearchAsync((path) => list.Add(new HashedFileInfo { Path = path, Hash = HashesCalculator.CalculateMD5(path), Size = (new System.IO.FileInfo(path)).Length }), new List<string>(), false, directoryPath);
-            var hashedFilesGroups = list.GroupBy(hashFileInfo => hashFileInfo.Size).Where(group => group.Count() > 1).SelectMany(group => group.ToList()).GroupBy(hashedElement => hashedElement.Hash).Where(group => group.Count() > 1);
-            var result = new Dictionary<string, List<string>>();
-            foreach (var group in hashedFilesGroups)
-            {
-                result[group.Key] = group.Select(element => element.Path).ToList();
-            }
-            return result;
-        }
-
-        public async static Task<Dictionary<string, List<string>>> FastScanWithHashesAsync(string directoryPath)
+        public static Dictionary<string, List<string>> FastScanWithHashes(string directoryPath)
         {
             var list = new List<HashedFileInfo>();
             var calculator = new HashesCalculator();
-            await RecursiveSearchLogic.RecursiveSearchAsync((path) => calculator.AddCalculateTask(path), new List<string>(), false, directoryPath);
+            RecursiveSearchLogic.RecursiveSearch((path) => calculator.AddCalculateTask(path), new List<string>(), false, directoryPath);
             var calculationResults = calculator.GetCalculationResults();
             foreach(var path in calculationResults.Keys)
             {
